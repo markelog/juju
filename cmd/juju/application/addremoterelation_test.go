@@ -5,6 +5,7 @@ package application
 
 import (
 	"regexp"
+	"runtime"
 
 	"github.com/juju/cmd/cmdtesting"
 	"github.com/juju/errors"
@@ -30,6 +31,10 @@ type AddRemoteRelationSuiteNewAPI struct {
 var _ = gc.Suite(&AddRemoteRelationSuiteNewAPI{})
 
 func (s *AddRemoteRelationSuiteNewAPI) SetUpTest(c *gc.C) {
+	if runtime.GOOS == "darwin" {
+		c.Skip("Flaky tests")
+	}
+
 	s.baseAddRemoteRelationSuite.SetUpTest(c)
 	s.mockAPI.version = 5
 }
