@@ -15,7 +15,7 @@ jobs:
         # other clients.
         # To turn on macOS, just update the os to include it.
         # os: [ubuntu-latest, macOS-latest, windows-latest]
-        os: [macOS-latest]
+        os: [ubuntu-latest, macOS-latest]
 
     steps:
 
