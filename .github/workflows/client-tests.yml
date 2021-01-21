@@ -60,8 +60,8 @@ jobs:
       run: |
         curl -o mongodb-4.0.21.tgz https://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-4.0.21.tgz
         tar xzvf mongodb-4.0.21.tgz
-        sudo mkdir -p /usr/local/mongodb
         sudo rm -rf /usr/local/mongodb
+        sudo mkdir -p /usr/local/mongodb
         sudo mv mongodb-osx-x86_64-4.0.21/bin/* /usr/local/mongodb
         sudo mkdir -p /usr/local/bin
         sudo rm /usr/local/mongodb/mongod
