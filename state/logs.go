@@ -952,7 +952,7 @@ func convertToCapped(coll *mgo.Collection, maxSizeMB int) error {
 	}, &result)
 	if err != nil {
 		errors.Errorf("Couldn't the logs collection for %s to capped with max size %v MiB", coll, maxSizeMB)
-		spew.Dump(err)
+		spew.Dump(err.(*mgo.QueryError))
 		return errors.Trace(err)
 	}
 	return nil
