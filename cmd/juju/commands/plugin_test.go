@@ -12,6 +12,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/juju/cmd"
 	"github.com/juju/cmd/cmdtesting"
 	gitjujutesting "github.com/juju/testing"
@@ -37,8 +38,10 @@ func (suite *PluginSuite) SetUpTest(c *gc.C) {
 	}
 	suite.FakeJujuXDGDataHomeSuite.SetUpTest(c)
 	suite.oldPath = os.Getenv("PATH")
+
+	spew.Dump(suite.oldPath)
 	os.Setenv("PATH", fmt.Sprintf(
-		"%s:%s", suite.oldPath, gitjujutesting.HomePath(),
+		"/bin:/usr/bin:%s", gitjujutesting.HomePath(),
 	))
 	jujuclienttesting.SetupMinimalFileStore(c)
 }
