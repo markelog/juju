@@ -37,7 +37,14 @@ func (suite *PluginSuite) SetUpTest(c *gc.C) {
 	}
 	suite.FakeJujuXDGDataHomeSuite.SetUpTest(c)
 	suite.oldPath = os.Getenv("PATH")
-	os.Setenv("PATH", "/bin:"+gitjujutesting.HomePath())
+
+	// We have to be careful to leave the default cmds that we need for tests
+	// like "touch" (which its in /usr/bin on mac but in /bin on linux).
+	// We doings this, because we need to add "binaries" from the tmp dir and reduce
+	// tests exectuion, since we are looking into all paths in $PATH to find juju plugins
+	os.Setenv("PATH", fmt.Sprintf(
+		"/bin:/usr/bin:%s", gitjujutesting.HomePath(),
+	))
 	jujuclienttesting.SetupMinimalFileStore(c)
 }
 
@@ -100,9 +107,9 @@ func (suite *PluginSuite) TestRunPluginWithFailing(c *gc.C) {
 }
 
 func (suite *PluginSuite) TestGatherDescriptionsInParallel(c *gc.C) {
-	if runtime.GOOS == "darwin" {
-		c.Skip("Flaky tests")
-	}
+	// if runtime.GOOS == "darwin" {
+	// 	c.Skip("Flaky tests")
+	// }
 
 	// Make plugins that will deadlock if we don't start them in parallel.
 	// Each plugin depends on another one being started before they will
