@@ -37,7 +37,7 @@ func (suite *PluginSuite) SetUpTest(c *gc.C) {
 	}
 	suite.FakeJujuXDGDataHomeSuite.SetUpTest(c)
 	suite.oldPath = os.Getenv("PATH")
-	os.Setenv("PATH", "/bin:"+gitjujutesting.HomePath())
+	os.Setenv("PATH", suite.oldPath+":"+gitjujutesting.HomePath())
 	jujuclienttesting.SetupMinimalFileStore(c)
 }
 
