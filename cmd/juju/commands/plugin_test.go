@@ -107,10 +107,6 @@ func (suite *PluginSuite) TestRunPluginWithFailing(c *gc.C) {
 }
 
 func (suite *PluginSuite) TestGatherDescriptionsInParallel(c *gc.C) {
-	// if runtime.GOOS == "darwin" {
-	// 	c.Skip("Flaky tests")
-	// }
-
 	// Make plugins that will deadlock if we don't start them in parallel.
 	// Each plugin depends on another one being started before they will
 	// complete. They make a full loop, so no sequential ordering will ever
