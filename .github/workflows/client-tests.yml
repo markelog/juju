@@ -71,5 +71,5 @@ jobs:
     - name: Test client
       run: |
         # Jenkins can perform the full jujud testing.
-        go test -v ./cmd/juju/... -check.vv
-        go test -v ./cmd/plugins/... -check.vv
+        go test -v ./cmd/juju/... -check.vv -failfast
+        go test -v ./cmd/plugins/... -check.vv -failfast
