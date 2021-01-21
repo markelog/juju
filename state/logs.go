@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/dustin/go-humanize"
 	"github.com/juju/clock"
 	"github.com/juju/collections/deque"
@@ -950,6 +951,8 @@ func convertToCapped(coll *mgo.Collection, maxSizeMB int) error {
 		{"size", maxSizeMB},
 	}, &result)
 	if err != nil {
+		errors.Errorf("Couldn't the logs collection for %s to capped with max size %v MiB", coll, maxSizeMB)
+		spew.Dump(err)
 		return errors.Trace(err)
 	}
 	return nil
