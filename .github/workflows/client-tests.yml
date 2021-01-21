@@ -63,6 +63,7 @@ jobs:
         sudo mkdir -p /usr/local/mongodb
         sudo mv mongodb-osx-x86_64-4.0.21/bin/* /usr/local/mongodb
         sudo mkdir -p /usr/local/bin
+        sudo rm /usr/local/mongodb/mongod
         sudo ln -s /usr/local/mongodb/mongod /usr/local/bin/mongod
       shell: bash
 
