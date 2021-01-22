@@ -68,8 +68,18 @@ jobs:
         sudo ln -s /usr/local/mongodb/mongod /usr/local/bin/mongod
       shell: bash
 
-    - name: Test client
+    - name: Test client (macOS)
+      if: (matrix.os == 'macOS-latest')
+      run: |
+        # There is a concurrency issue with macos setup for the "./cmd/juju/..." packages.
+        # So we have to limit amount of used CPUs and therefore parallelization
+        go test -v -p 1 ./cmd/juju/... -check.vv
+        go test -v  ./cmd/plugins/... -check.vv
+      shell: bash
+
+    - name: Test client (ubuntu)
+    - if: (matrix.os == 'ubuntu-latest')
       run: |
         # Jenkins can perform the full jujud testing.
-        go test -v -p 1 ./cmd/juju/... -check.vv
-        go test -v -p 1 ./cmd/plugins/... -check.vv
+        go test -v ./cmd/juju/... -check.vv
+        go test -v ./cmd/plugins/... -check.vv
