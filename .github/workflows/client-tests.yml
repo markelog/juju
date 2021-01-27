@@ -15,7 +15,7 @@ jobs:
         # other clients.
         # To turn on macOS, just update the os to include it.
         # os: [ubuntu-latest, macOS-latest, windows-latest]
-        os: [ubuntu-latest]
+        os: [windows-latest]
 
     steps:
 
@@ -62,7 +62,14 @@ jobs:
       if: (matrix.os == 'windows-latest')
       uses: crazy-max/ghaction-chocolatey@v1
       with:
-        args: install mongodb.install --version=3.6.0 --allow-downgrade
+        args: install mongodb.install --version=4.0.12 --allow-downgrade
+
+    - name: "Test client: windows-latest"
+      if: (matrix.os == 'windows-latest')
+      run: |
+        # The most basic tests
+        go test -v ./cmd/juju/status
+      shell: bash
 
     - name: Test client
       run: |
