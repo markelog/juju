@@ -50,29 +50,17 @@ jobs:
         sudo mv mongodb-osx-x86_64-3.6.14/bin/* /usr/local/mongodb
         sudo mkdir -p /user/local/bin
         sudo ln -s /usr/local/mongodb/mongod /usr/local/bin/mongod
-      shell: bash
 
-    - name: "Remove Mongo Dependencies: windows-latest"
-      if: (matrix.os == 'windows-latest')
-      uses: crazy-max/ghaction-chocolatey@v1
-      with:
-        args: uninstall mongodb mongodb.install -y --all-versions
-
-    - name: "Install Mongo Dependencies: windows-latest"
-      if: (matrix.os == 'windows-latest')
-      uses: crazy-max/ghaction-chocolatey@v1
-      with:
-        args: install mongodb.install --version=4.0.12 --allow-downgrade
+    - name: "Test client: ubuntu-latest"
+      if: (matrix.os != 'windows-latest')
+      run: |
+        # Jenkins can perform the full jujud testing.
+        go test -v ./cmd/juju/status
 
     - name: "Test client: windows-latest"
       if: (matrix.os == 'windows-latest')
-      run: |
-        # The most basic tests
-        go test -v ./cmd/juju/status
-      shell: bash
-
-    - name: Test client
+      env:
+        DISABLE_MONGO_TESTS: yes
       run: |
         # Jenkins can perform the full jujud testing.
-        go test -v ./cmd/juju/... -check.v
-        go test -v ./cmd/plugins/... -check.v
+        go test -v ./cmd/juju/...

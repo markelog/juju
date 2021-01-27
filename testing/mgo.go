@@ -4,6 +4,7 @@
 package testing
 
 import (
+	"os"
 	"testing"
 
 	gitjujutesting "github.com/juju/testing"
@@ -16,6 +17,13 @@ import (
 // tests. For tests that care about security (which should be few), use
 // MgoSSLTestPackage.
 func MgoTestPackage(t *testing.T) {
+	var disable = os.Getenv("DISABLE_MONGO_TESTS") == "yes"
+
+	if disable {
+		t.Skip("Asked to disable mongo tests via $DISABLE_MONGO_TESTS environment variable")
+		return
+	}
+
 	gitjujutesting.MgoTestPackage(t, nil)
 }
 
