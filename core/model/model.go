@@ -66,11 +66,13 @@ func ValidateSeries(modelType ModelType, charmSeries string, charmFormat charm.F
 		switch modelType {
 		case CAAS:
 			if !caasOS.Contains(os.String()) {
-				return errors.NotValidf("series %q in a kubernetes model", charmSeries)
+				return errors.NewNotValid(
+					nil, `not a Kubernetes charm (look for the charms with "-k8s" suffix in their name)`,
+				)
 			}
 		case IAAS:
 			if caasOS.Contains(os.String()) {
-				return errors.NotValidf("series %q in a non container model", charmSeries)
+				return errors.NewNotValid(nil, "not a IAAS charm")
 			}
 		}
 	}
